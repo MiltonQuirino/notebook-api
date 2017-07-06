@@ -1,8 +1,10 @@
 class Contact < ApplicationRecord
 
   #associacoes
-  belongs_to :kind, optional: true
+  belongs_to :kind #, optional: true
   has_many :phones
+
+  accepts_nested_attributes_for :phones
 
   def as_json(options={})
     h = super(options)
@@ -16,7 +18,7 @@ class Contact < ApplicationRecord
 
   # def to_br
   #   {
-  #       name: self.name,
+  #       name: selfname,
   #       email: self.email,
   #       birthdate: (I18n.l(self.birthdate) unless self.birthdate.blank?)
   #   }
