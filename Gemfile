@@ -37,6 +37,7 @@ group :development, :test do
   #A library for generating fake data such as names, addresses, and phone numbers.
   gem 'faker'
   gem 'pry-rails'
+  gem 'rspec-rails'
 end
 
 group :development do
