@@ -5,12 +5,12 @@ class ContactsController < ApplicationController
   def index
     @contacts = Contact.all
 
-    render json: @contacts#, methods: :birthdate_br
+    render json: @contacts #, methods: :birthdate_br
   end
 
   # GET /contacts/1
   def show
-    render json: @contact, include: [:kind]#, include: [:kind, :phones, :address]
+    render json: @contact, include: [:kind, :address, :phone] #, include: [:kind, :phones, :address]
   end
 
   # POST /contacts
@@ -39,17 +39,18 @@ class ContactsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = Contact.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact
+    @contact = Contact.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def contact_params
-      params.require(:contact).permit(
-          :name, :email, :birthdate, :kind_id,
-          phones_attributes: [:id, :number, :_destroy],
-          address_attributes: [:id, :street, :city]
-      )
-    end
+  # Only allow a trusted parameter "white list" through.
+  def contact_params
+    # params.require(:contact).permit(
+    #     :name, :email, :birthdate, :kind_id,
+    #     phones_attributes: [:id, :number, :_destroy],
+    #     address_attributes: [:id, :street, :city]
+    # )
+    ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+  end
 end
